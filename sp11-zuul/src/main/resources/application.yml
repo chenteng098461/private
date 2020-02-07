@@ -1,0 +1,32 @@
+spring:
+  ldap:
+    username: zuul
+server:
+  port: 3001
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka1:2001/eureka, http://eureka2:2002/eurek
+zuul:
+  routes:
+    item-service: /item-service/** 
+    user-service: /user-service/**
+    order-service: /order-service/**
+  retryable: true  #默认 false,zull不推荐使用启用重试
+ribbon:
+  connecttimeout: 1000
+  ReadTimeout: 1000
+  MaxAutoRetries: 1
+  MaxAutoRetriesNexServer: 2 
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 500  
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream                           
